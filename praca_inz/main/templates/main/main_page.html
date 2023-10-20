@@ -1,0 +1,33 @@
+<!-- strona użytkownika - html -->
+{% load static%}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aleksandra Ciura</title>
+</head>
+<body>
+    <header>
+        <h1>Aplikacja wspomagająca wykrywanie uszkodzeń kości na zdjeciach rentgenowskich</h1>
+    </header>
+
+    <main>
+        <h2>Wstaw zdjecie</h2>
+        <form id="upload-form" enctype="multipart/form-data" action="/upload" method="post">
+            <input type="file" name="file" id="file" accept="image/*" required>
+            <button type="submit">Wyślij Zdjęcie</button>
+        </form>
+
+        <div id="image-preview">
+            <img id="preview" src="" alt="Podgląd zdjęcia">
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Aleksandra Ciura. Wszelkie prawa zastrzeżone.</p>
+    </footer>
+
+    <script src="{% static 'js/upload.js' %}"></script>
+</body>
+</html>
