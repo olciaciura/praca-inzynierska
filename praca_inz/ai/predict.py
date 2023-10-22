@@ -65,7 +65,7 @@ class Predictor:
             )
             self.clf = None
 
-    def load_BB_predictor(self, BB_predictor_name):
+    def load_BB_predictor(self , BB_predictor_name):
         """Method which loads BB predictor from the right path.
 
         Args:
