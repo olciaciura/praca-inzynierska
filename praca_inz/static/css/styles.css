@@ -1,0 +1,56 @@
+body {
+
+  background: linear-gradient(to right, #404040 0%, #000000 66%, #000000 100%);
+  color: rgb(161, 161, 161);
+
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  margin: 0 0 0 5vw;
+  padding: 0;
+
+  z-index: -1;
+}
+
+footer {
+  margin-top: auto;
+}
+
+p {
+  font-size: 2vh;
+}
+
+#background_img {
+  z-index: 10;
+  max-height: 100vh;
+  width: fit-content;
+
+  margin-left: auto;
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+header{
+  max-width: 66%;
+  margin-top: 3vh;
+}
+
+
+h1 {
+  text-shadow: #353535 2px 2px 3px;
+  font-size: 6vh;
+}
+
+h2 {
+  text-shadow: #353535 2px 2px 3px;
+  font-size: 4vh;
+}
+
+#preview {
+  height: 60vh;
+}

@@ -5,28 +5,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
     <title>Aleksandra Ciura</title>
 </head>
 <body>
+    <image id='background_img' src="{% static 'images/background.jpg' %}"></image>
     <header>
         <h1>Aplikacja wspomagająca wykrywanie uszkodzeń kości na zdjeciach rentgenowskich</h1>
     </header>
 
     <main>
-        <h2>Wstaw zdjecie</h2>
-        <form id="upload-form" enctype="multipart/form-data" action="/upload" method="post">
+
+      <img id="preview" src="{% static 'images/image_placeholder.png' %}" alt="Podgląd zdjęcia">
+
+      <form id="upload-form" enctype="multipart/form-data" action="/praca_inzynierska/recognition/" method="post">
             <input type="file" name="file" id="file" accept="image/*" required>
             <button type="submit">Wyślij Zdjęcie</button>
-        </form>
+      </form>
 
-        <div id="image-preview">
-            <img id="preview" src="" alt="Podgląd zdjęcia">
-        </div>
+
     </main>
 
     <footer>
         <p>&copy; 2023 Aleksandra Ciura. Wszelkie prawa zastrzeżone.</p>
     </footer>
+
 
     <script src="{% static 'js/upload.js' %}"></script>
 </body>
