@@ -1,0 +1,8 @@
+# created by virtualenv automatically
+venv/
+Lib/
+__pycache__
+share/
+Scripts/
+pyvenv.cfg
+model.p
