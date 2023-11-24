@@ -42,10 +42,12 @@ def predict(model, path_to_image):
     model.eval()
     with torch.no_grad():
         prediction = model([img])
+    print(prediction)
 # bierzemy ten bb z najwiekszym scorem
     scores_tensor = prediction[0]['scores']
-    best_score_id = torch.argmax(scores_tensor)
-    # best_score_id = 0
+    print(scores_tensor)
+    # best_score_id = torch.argmax(scores_tensor)
+    best_score_id = 0
     bb = prediction[0]['boxes'][best_score_id]
     coordinates = { 'left':     bb[0] - left_margin,
                     'right':    bb[2] - left_margin,

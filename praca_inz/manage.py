@@ -9,7 +9,7 @@ MODEL = load_model('./model/model.p')
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'praca_inz.settings')
-    predict(MODEL, './model/photos/train/28.jpg')
+    # predict(MODEL, './model/photos/train/28.jpg')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

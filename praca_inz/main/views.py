@@ -5,8 +5,9 @@ from django.template import loader
 
 from .models import DataModel
 from .utils import draw_frame_on_image, clear_media_folder
-from ..model.utils import predict
-from ..manage import MODEL
+from manage import MODEL
+from model.utils import predict
+
 # Create your views here.
 
 # klasa ImageUploadView - w tym metoda get - pobieranie zdjecia, post - przetworzenie zdjecia i wysłanie z ramką
@@ -26,7 +27,7 @@ def model(request):
 
     last_entry = DataModel.objects.last()
 
-    coordinates = predict(MODEL, last_entry)
+    coordinates = predict(MODEL, last_entry.file)
     # coordinates = { 'left':     50,
     #                 'right':    100,
     #                 'bottom':   100,
