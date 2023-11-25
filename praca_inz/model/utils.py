@@ -37,18 +37,12 @@ def load_model(path_to_model):
 
 
 def predict(model, img):
-    # img = Image.open(path_to_image)
-    # device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
     img, left_margin, top_margin = preprocess(img)
     print(left_margin, top_margin)
     model.eval()
     with torch.no_grad():
         prediction = model([img])
-    print(prediction)
-# bierzemy ten bb z najwiekszym scorem
-    scores_tensor = prediction[0]['scores']
-    print(scores_tensor)
-    # best_score_id = torch.argmax(scores_tensor)
+
     best_score_id = 0
     bb = prediction[0]['boxes'][best_score_id]
     coordinates = { 'left':     bb[0] - left_margin,

@@ -10,10 +10,6 @@ from manage import MODEL
 from model.utils import predict
 from datetime import datetime
 from PIL import Image
-# Create your views here.
-
-# klasa ImageUploadView - w tym metoda get - pobieranie zdjecia, post - przetworzenie zdjecia i wysłanie z ramką
-#tu tez może być model jako funkcja globalna
 
 def index(request):
     context = {}
@@ -27,13 +23,7 @@ def model(request):
         uploaded_image = request.FILES['file']
         uploaded_image = Image.open(BytesIO(uploaded_image.read()))
 
-    #     clear_media_folder()
-    #     new_entry = DataModel(file=uploaded_image)
-    #     new_entry.save()
-
-    # last_entry = DataModel.objects.last()
-
-    coordinates = predict(MODEL, uploaded_image )
+    coordinates = predict(MODEL, uploaded_image)
     # coordinates = { 'left':     50,
     #                 'right':    100,
     #                 'bottom':   100,

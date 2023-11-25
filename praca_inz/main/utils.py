@@ -5,7 +5,6 @@ from .models import DataModel
 
 def draw_frame_on_image(image, coordinates, path):
     try:
-        # image = Image.open(file_path)
         draw = ImageDraw.Draw(image)
 
         draw.rectangle([coordinates["left"], coordinates["top"], coordinates["right"], coordinates["bottom"]],
