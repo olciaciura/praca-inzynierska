@@ -38,20 +38,14 @@ def load_model(path_to_model):
 
 def predict(model, img):
     img, left_margin, top_margin = preprocess(img)
-    print(left_margin, top_margin)
     model.eval()
     with torch.no_grad():
         prediction = model([img])
 
-    best_score_id = 0
-    bb = prediction[0]['boxes'][best_score_id]
+    bb = prediction[0]['boxes'][0]
     coordinates = { 'left':     bb[0] - left_margin,
                     'right':    bb[2] - left_margin,
                     'bottom':   bb[3] - top_margin,
                     'top':      bb[1] - top_margin}
 
     return coordinates
-
-if __name__ == '__main__':
-    model = load_model('model.p')
-    print(type(model))

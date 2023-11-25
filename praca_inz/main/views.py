@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.template import loader
 
 from .models import DataModel
-from .utils import draw_frame_on_image, clear_media_folder
+from .utils import add_frame_to_image
 from manage import MODEL
 from model.utils import predict
 from datetime import datetime
@@ -17,7 +17,6 @@ def index(request):
 
 def model(request):
     timestamp = datetime.now().strftime('%m%d%Y%h%m%S')
-    print(timestamp)
 
     if request.method == 'POST':
         uploaded_image = request.FILES['file']
@@ -29,7 +28,7 @@ def model(request):
     #                 'bottom':   100,
     #                 'top':      50}
 
-    draw_frame_on_image(uploaded_image, coordinates, timestamp)
+    add_frame_to_image(uploaded_image, coordinates, timestamp)
 
     context = { 'MEDIA_URL': settings.MEDIA_URL, 'file_path': f'{timestamp}.jpg' }
     return render(request, "main/predict_page.html", context)

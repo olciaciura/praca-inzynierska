@@ -18,7 +18,7 @@
 
       <img id="preview" src="{% static 'images/image_placeholder.png' %}" alt="Podgląd zdjęcia">
 
-      <form id="upload-form" enctype="multipart/form-data" action="/praca_inzynierska/recognition/" method="post">
+      <form id="upload-form" enctype="multipart/form-data" action="/recognition/" method="post">
             {% csrf_token %}
             <input type="file" name="file" id="file" accept="image/*" required>
             <button type="submit">Wyślij Zdjęcie</button>
