@@ -19,8 +19,8 @@ def add_margin(pil_img, top, right, bottom, left, color):
     return result
 
 def preprocess(image):
-    max_height = 606
-    max_width = 477
+    max_height = 223
+    max_width = 227
     w, h = image.size
 
     left_margin = (max_width - w)//2
@@ -36,9 +36,11 @@ def load_model(path_to_model):
     return model
 
 
-def predict(model, path_to_image):
-    img = Image.open(path_to_image)
+def predict(model, img):
+    # img = Image.open(path_to_image)
+    # device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
     img, left_margin, top_margin = preprocess(img)
+    print(left_margin, top_margin)
     model.eval()
     with torch.no_grad():
         prediction = model([img])

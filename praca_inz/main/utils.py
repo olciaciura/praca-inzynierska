@@ -3,9 +3,9 @@ from PIL import Image, ImageDraw
 from django.conf import settings
 from .models import DataModel
 
-def draw_frame_on_image(file_path, coordinates):
+def draw_frame_on_image(image, coordinates, path):
     try:
-        image = Image.open(file_path)
+        # image = Image.open(file_path)
         draw = ImageDraw.Draw(image)
 
         draw.rectangle([coordinates["left"], coordinates["top"], coordinates["right"], coordinates["bottom"]],
@@ -17,8 +17,10 @@ def draw_frame_on_image(file_path, coordinates):
         image.save(temp_image_path, 'JPEG')
 
         image_instance = DataModel()
-        image_instance.file.save('photo_with_frame.jpg', open(temp_image_path, 'rb'))
+        with open(temp_image_path, 'rb') as f:
+            image_instance.file.save(f'{path}.jpg', f)
         image_instance.save()
+    
 
         if os.path.exists(temp_image_path):
             os.remove(temp_image_path)
