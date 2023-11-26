@@ -3,7 +3,7 @@ body {
   background: linear-gradient(to right, #404040 0%, #000000 66%, #000000 100%);
   color: rgb(161, 161, 161);
 
-  min-height: 100vh;
+  max-height: 100vh;
 
   display: flex;
   flex-direction: column;
@@ -25,7 +25,7 @@ p {
 
 #background_img {
   z-index: 10;
-  max-height: 100vh;
+  min-height: 100vh;
   width: fit-content;
 
   margin-left: auto;
@@ -50,6 +50,13 @@ h2 {
   font-size: 4vh;
 }
 
+
+
+button:hover {
+  height: 8vh;
+}
+
 #preview {
   height: 60vh;
 }
+
