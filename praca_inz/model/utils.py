@@ -19,7 +19,7 @@ def add_margin(pil_img, top, right, bottom, left, color):
     return result
 
 def preprocess(image):
-    max_height = 223
+    max_height = 225
     max_width = 227
     w, h = image.size
 
@@ -35,17 +35,21 @@ def load_model(path_to_model):
         model = pickle.load(f)
     return model
 
-
 def predict(model, img):
     img, left_margin, top_margin = preprocess(img)
     model.eval()
     with torch.no_grad():
         prediction = model([img])
-
-    bb = prediction[0]['boxes'][0]
-    coordinates = { 'left':     bb[0] - left_margin,
-                    'right':    bb[2] - left_margin,
-                    'bottom':   bb[3] - top_margin,
-                    'top':      bb[1] - top_margin}
+    if(len(prediction[0]['boxes'])!=0):
+        bb = prediction[0]['boxes'][0]
+        coordinates = { 'left':     bb[0] - left_margin,
+                        'right':    bb[2] - left_margin,
+                        'bottom':   bb[3] - top_margin,
+                        'top':      bb[1] - top_margin}
+    else:
+        coordinates = { 'left':     0,
+                        'right':    0,
+                        'bottom':   0,
+                        'top':      0}
 
     return coordinates
