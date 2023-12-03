@@ -27,7 +27,31 @@
             padding-inline: 6px;
             border: 2px outset buttonborder;
         }
+        #preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: flex-start;
+            height: 60vh;
+            width: 60vw;
+            overflow-y: auto; /* Dodane, aby dodać pasek przewijania, gdy obrazy nie mieszczą się w obszarze widocznym */
+        }
+        #preview {
+            height: 100%;
+            box-sizing: border-box; 
+            width: calc(20% - 20px); 
+            margin: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        #preview:hover {
+            transform: scale(1.1);
+        }
     </style>
+    <script>
+        var placeholderImagePath = '{% static "images/image_placeholder.png" %}';
+    </script>
 </head>
 <body>
     <image id='background_img' src="{% static 'images/background.jpg' %}"></image>
@@ -36,13 +60,15 @@
     </header>
 
     <main>
-
-      <img id="preview" src="{% static 'images/image_placeholder.png' %}" alt="Podgląd zdjęcia">
+        <div id="preview-container">
+            <img src='{% static "images/image_placeholder.png" %}'/>
+        </div>
+      
 
       <form id="upload-form" enctype="multipart/form-data" action="/recognition/" method="post">
             {% csrf_token %}
             <label for="file">Wybierz plik</label>
-            <input type="file" name="file" id="file" accept="image/*" required>
+            <input type="file" name="file" id="file" accept="image/*" multiple required>
             <button type="submit" id="submit">Wyślij Zdjęcie</button>
       </form>
 
@@ -51,8 +77,6 @@
     <footer>
         <p>&copy; 2023 Aleksandra Ciura. Wszelkie prawa zastrzeżone.</p>
     </footer>
-
-
     <script src="{% static 'js/upload.js' %}"></script>
 </body>
 </html>

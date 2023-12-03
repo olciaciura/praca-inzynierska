@@ -25,7 +25,7 @@ p {
 
 #background_img {
   z-index: 10;
-  min-height: 100vh;
+  height: 100vh;
   width: fit-content;
 
   margin-left: auto;
@@ -56,7 +56,4 @@ button:hover {
   height: 8vh;
 }
 
-#preview {
-  height: 60vh;
-}
 
