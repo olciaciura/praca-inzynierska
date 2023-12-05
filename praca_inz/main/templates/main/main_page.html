@@ -67,9 +67,9 @@
 
       <form id="upload-form" enctype="multipart/form-data" action="/recognition/" method="post">
             {% csrf_token %}
-            <label for="file">Wybierz plik</label>
+            <label for="file">Wybierz pliki</label>
             <input type="file" name="file" id="file" accept="image/*" multiple required>
-            <button type="submit" id="submit">Wyślij Zdjęcie</button>
+            <button type="submit" id="submit">Wyślij Zdjęcia</button>
       </form>
 
     </main>

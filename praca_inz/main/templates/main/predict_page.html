@@ -9,7 +9,7 @@
     <script type="text/javascript" src="{% static 'js/download.js' %}"></script>
     <title>Aleksandra Ciura</title>
     <style>
-        /* Dodana klasa fullscreen do kontrolowania rozmiaru obrazka w trybie pełnoekranowym */
+    
         button {
             height: 6vh !important;
             background-color: #202020;
@@ -34,18 +34,18 @@
             align-items: flex-start;
             height: 60vh;
             width: 60vw;
-            overflow-y: auto; /* Dodane, aby dodać pasek przewijania, gdy obrazy nie mieszczą się w obszarze widocznym */
+            overflow-y: auto; 
         }
 
         .image_wrapper {
-            box-sizing: border-box; /* Dodane, aby marginesy i padding nie wpływały na szerokość kontenera */
-            width: calc(20% - 20px); /* Ustawienie szerokości kontenera na 25% z marginesem 10px (4 kafelki w jednym wierszu) */
+            box-sizing: border-box; 
+            width: calc(20% - 20px); 
             margin: 10px;
             cursor: pointer;
             transition: transform 0.3s ease-in-out;
         }
         .image_wrapper img {
-            width: 100%; /* Ustawienie szerokości obrazu na 100% szerokości kontenera */
+            width: 100%; 
             height: auto;
             border-radius: 5px;
         }
@@ -65,9 +65,10 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.8); /* Kolor overlaya */
+            background: rgba(0, 0, 0, 0.8); 
             display: none;
             z-index: 999;
+            pointer-events: none;
         }
 
         .overlay.active {
@@ -85,6 +86,9 @@
         .overlay.active .overlay_buttons {
             display: block;
         }
+        #scale_input {
+            z-index: 1003;
+        }
     </style>
 </head>
 <body>
@@ -96,13 +100,20 @@
     <main>
         <div id="image_container">
             {% for file_path in file_paths %}
-            <div class="image_wrapper">
+            <div class="image_wrapper" onclick="handleImageClick(event)">
                 <img src="{{ MEDIA_URL }}{{ file_path }}" onclick="openFullscreen(this)">
                 <div class="overlay">
                     <div class="overlay_buttons">
                         <p>Zamknij za pomocą klawisza Esc</p>
                         <p>Pobierz obrazek naciskając d</p>
-                        <button onclick="setScale()">Ustaw skalę</button>
+                        <div id="scale_container">
+                            <label for="scale_input">Skala (jeden piksel to x milimetrów):</label>
+                            <input type="text" id="scale_input" placeholder="Wprowadź skalę" oninput="setScale()">
+                        </div>
+                        
+                        <div id="measurement_info">
+                            <p>Rozmiar fragmentu: <span id="measurement_size"></span> mm</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -110,7 +121,7 @@
         </div>
         <div id="button_container">
             <button onclick="window.location.href = '/';">Przejdź do strony</button>
-            <button id="download_button">Pobierz zdjęcie</button>
+            <button id="download_button">Pobierz zdjęcia</button>
         </div>
     </main>
 
