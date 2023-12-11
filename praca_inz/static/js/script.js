@@ -1,12 +1,5 @@
 // script.js
 document.addEventListener('DOMContentLoaded', function () {
-    var images = document.querySelectorAll('.image_wrapper img');
-
-    images.forEach(function (imgElement) {
-        imgElement.addEventListener('click', function () {
-            openFullscreen(imgElement);
-        });
-    });
 
     document.addEventListener('keydown', function (event) {
         if (event.key === 'Escape') {
@@ -20,35 +13,74 @@ document.addEventListener('DOMContentLoaded', function () {
         }});
 });
 
+let point1 = null;
+let point2 = null;
+let scale = null;
+
+
+function displayMeasurementInfo() {
+    const measurementInfo = document.getElementById('measurementInfo');
+    const sizeSpan = document.getElementById('measurementSize');
+
+    if (point1 && point2) {
+        const size = calculateDistance(point1, point2);
+        sizeSpan.textContent = `${size.toFixed(2)}`;
+        measurementInfo.style.display = 'block';
+    }
+}
+
 function openFullscreen(imgElement) {
-    imgElement.classList.add('fullscreen');
-    imgElement.style.zIndex = '1000';
-    var overlay = imgElement.nextElementSibling;
-    overlay.classList.add('active');
-    var overlayButtons = overlay.querySelector('.overlay_buttons');
-    overlayButtons.style.display = 'block';
+	if(document.querySelector('.image_wrapper').classList.contains('full')){
+		const imageWrapper = event.currentTarget;
+		const rect = imageWrapper.getBoundingClientRect();
+		const x = event.clientX;
+		const y = event.clientY;
+		if (!point1) {
+			point1 = { x, y };
+			
+            const imageWrapper = document.querySelector('.image_wrapper');
+
+            const xMarker = document.createElement('div');
+            xMarker.className = 'x-marker';
+            xMarker.style.position = 'absolute';
+            xMarker.style.left = `${point1.x - 6}px`;
+            xMarker.style.top = `${point1.y -5}px`;
+            xMarker.innerHTML = '<span style="color: red; font-size: 20px;">X</span>';
+            imageWrapper.appendChild(xMarker); 
+                    
+		} else if (!point2) {
+			point2 = { x, y };
+			
+			
+            const imageWrapper = document.querySelector('.image_wrapper');
+
+            const xMarker = document.createElement('div');
+            xMarker.className = 'y-marker';
+            xMarker.style.position = 'absolute';
+            xMarker.style.left = `${point2.x - 6}px`;
+            xMarker.style.top = `${point2.y - 5}px`;
+            xMarker.innerHTML = '<span style="color: red; font-size: 20px;">X</span>';
+            imageWrapper.appendChild(xMarker); 
+			
+			displayMeasurementInfo();
+			drawOverlay();
+		}
+	} else {
+		document.querySelector('.image_wrapper').classList.add('full');
+		document.querySelector('.actions').classList.add('show');	
+        
+	}
+ 
 }
 
 function closeFullscreen() {
-    var fullscreenImg = document.querySelector('.image_wrapper img.fullscreen');
-    var activeOverlay = document.querySelector('.overlay.active');
-
-    if (fullscreenImg) {
-        fullscreenImg.classList.remove('fullscreen');
-    }
-
-    if (activeOverlay) {
-        activeOverlay.classList.remove('active');
-        var overlayButtons = activeOverlay.querySelector('.overlay_buttons');
-
-        if (overlayButtons) {
-            overlayButtons.style.display = 'none';
-        }
-    }
+	document.querySelector('.image_wrapper').classList.remove('full');
+	document.querySelector('.actions').classList.remove('show');
+    clearMeasurement();
 }
 
 function downloadImage() {
-    var fullscreenImg = document.querySelector('.image_wrapper img.fullscreen');
+    var fullscreenImg = document.querySelector('.image_wrapper.full img');
 
     if (fullscreenImg) {
         var imageUrl = fullscreenImg.src;
@@ -67,39 +99,10 @@ function downloadImage() {
     }
 }
 
-let point1 = null;
-let point2 = null;
-let scale = null;
-
-function handleImageClick(event) {
-    const imageWrapper = event.currentTarget;
-    const rect = imageWrapper.getBoundingClientRect();
-    const x = event.clientX;
-    const y = event.clientY;
-
-    if (!point1) {
-        point1 = { x, y };
-    } else if (!point2) {
-        point2 = { x, y };
-        displayMeasurementInfo();
-        drawOverlay();
-    }
-}
-
-function displayMeasurementInfo() {
-    const measurementInfo = document.getElementById('measurement_info');
-    const sizeSpan = document.getElementById('measurement_size');
-
-    if (point1 && point2) {
-        const size = calculateDistance(point1, point2);
-        sizeSpan.textContent = `${size.toFixed(2)}`;
-        measurementInfo.style.display = 'block';
-    }
-}
-
 function calculateDistance(pointA, pointB) {
     if (!scale) {
-        scale = 2
+        alert('Wprowadź poprawną wartość skali (większą od zera).');
+        scale = null;
     }
 
     const dx = pointA.x - pointB.x;
@@ -110,34 +113,8 @@ function calculateDistance(pointA, pointB) {
     return distanceInMillimeters;
 }
 
-function drawOverlay() {
-    const imageWrapper = document.querySelector('.image_wrapper');
-    const overlay = document.querySelector('.overlay');
-
-    const xMarker = document.createElement('div');
-    xMarker.className = 'x-marker';
-    xMarker.style.position = 'absolute';
-    xMarker.style.left = `${point2.x}px`;
-    xMarker.style.top = `${point2.y}px`;
-    xMarker.innerHTML = '<span style="color: red; font-size: 20px;">X</span>';
-    imageWrapper.appendChild(xMarker); 
-
-    const line = document.createElement('div');
-    line.className = 'line';
-    line.style.position = 'absolute';
-    line.style.left = `${point1.x}px`;
-    line.style.top = `${point1.y}px`;
-    line.style.width = `${point2.x - point1.x}px`;
-    line.style.height = `${point2.y - point1.y}px`;
-    line.style.border = '1px solid red';
-    imageWrapper.appendChild(line);  
-
-    console.log('Point1:', point1);
-    console.log('Point2:', point2);
-}
-
 function setScale() {
-    const scaleInput = document.getElementById('scale_input');
+    const scaleInput = document.getElementById('scaleInput');
     scale = parseFloat(scaleInput.value);
 
     if (isNaN(scale) || scale <= 0) {
@@ -148,12 +125,12 @@ function setScale() {
 function clearMeasurement() {
     point1 = null;
     point2 = null;
-    const measurementInfo = document.getElementById('measurement_info');
+    const measurementInfo = document.getElementById('measurementInfo');
     measurementInfo.style.display = 'none';
 
     const x = document.querySelector('.x-marker');
     x.innerHTML = '';
 
-    const line = document.querySelector('.line');
-    line.innerHTML = '';
+    const y = document.querySelector('.y-marker');
+    y.innerHTML = '';
 };
