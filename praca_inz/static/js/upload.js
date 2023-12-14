@@ -1,20 +1,32 @@
-document.addEventListener('DOMContentLoaded', function() {
-  const fileInput = document.getElementById('file');
-  const imagePreview = document.getElementById('preview');
-
-  fileInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-
-      if (file) {
-          const reader = new FileReader();
-          reader.onload = (event) => {
-              imagePreview.src = event.target.result;
-          };
-          reader.readAsDataURL(file);
-      } else {
-          imagePreview.src = '/static/images/image_placeholder.png';
-      }
-  });
+document.getElementById('file').addEventListener('change', function (event) {
+    handleFileSelect(event, placeholderImagePath);
 });
 
-// TODO obsługa wysyłania zdjecia - w tym napisanie endpointu - czeka na response w którem jest ramka
+function handleFileSelect(event, placeholderImagePath) {
+    var preview = document.getElementById('preview-container');
+    preview.innerHTML = '';
+
+    var files = event.target.files;
+
+    if (files.length > 0) {
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var img = new Image();
+                img.src = e.target.result;
+                img.className = 'preview';
+                preview.appendChild(img);
+            };
+
+            reader.readAsDataURL(file);
+        }
+    } else {
+        var img = new Image();
+        img.src = placeholderImagePath;
+        img.className = 'preview-image';
+        preview.appendChild(img);
+    }
+}
